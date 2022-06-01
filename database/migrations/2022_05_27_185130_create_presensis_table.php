@@ -18,6 +18,7 @@ class CreatePresensisTable extends Migration
             $table->foreignId('siswa_id')->constrained('siswas');
             $table->foreignId('jadwal_id')->constrained('jadwal_mapels');
             $table->char('status');
+            $table->integer('minggu_ke');
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateCodePresensisTable extends Migration
             $table->id();
             $table->char('code_presensi');
             $table->foreignId('jadwal_id')->constrained('jadwal_mapels');
+            $table->integer('minggu_ke');
             $table->dateTime('waktu_awal');
             $table->dateTime('waktu_akhir');
             $table->timestamps();

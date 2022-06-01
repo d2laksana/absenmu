@@ -13,8 +13,9 @@ class   SiswaController extends Controller
     public function index()
     {
         $data =  Siswa::all();
-
-        return view('admin.siswa.siswa', compact('data'));
+        $kelas = Kelas::all();
+        // dd($data);
+        return view('admin.siswa.siswa', compact('data', 'kelas'));
     }
 
     public function tambah()
@@ -61,10 +62,6 @@ class   SiswaController extends Controller
     
     public function hapus($id)
     {
-        // $user = User::find([
-        //     'siswa_id' => $id
-        // ]);
-        // $user->delete();
 
         $data = Siswa::find($id);
         $data->delete();

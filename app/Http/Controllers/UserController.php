@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,11 +24,14 @@ class UserController extends Controller
 
     public function simpan(Request $request)
     {
-        User::create([
+        $data = User::create([
             'username' => $request->username,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'role' => $request->role
         ]);
+
+        if ($request->role == 'guru') $data->update(['guru_id'=> $request->user_id]);
+        if ($request->role == 'siswa') $data->update(['siswa_id'=> $request->user_id]);
         return redirect('/user');
     }
 
@@ -54,5 +58,9 @@ class UserController extends Controller
         
         return redirect('/user');
     }
-    
+    public function show_user($role)
+    {
+        if($role == 'guru') return response()->json(Guru::all());   
+        if($role == 'siswa') return response()->json(Siswa::all());
+    }
 }

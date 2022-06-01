@@ -29,13 +29,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
 
 
 
@@ -44,66 +38,66 @@ Route::get('/dashboard', function () {
 
 Route::post('/login-post', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
+Route::get('/login', function () {
+    return view('login');
+});
 
 Route::middleware([AuthMiddleware::class])->group(function () {
     Route::middleware([AdminMiddleware::class])->group(function () {
         // crud siswa
         Route::get('/siswa', [SiswaController::class, 'index']);
-        Route::get('/siswa/create', [SiswaController::class, 'tambah']);
         Route::post('/siswa/simpan', [SiswaController::class, 'simpan']);
-        Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit']);
         Route::post('/siswa/update/{id}', [SiswaController::class, 'update']);
-        Route::get('/siswa/hapus/{id}', [SiswaController::class, 'hapus']);
-        
+        Route::post('/siswa/hapus/{id}', [SiswaController::class, 'hapus']);
+
         // crud guru
         Route::get('/guru', [GuruController::class, 'index']);
-        Route::get('/guru/create', [GuruController::class, 'tambah']);
         Route::post('/guru/simpan', [GuruController::class, 'simpan']);
-        Route::get('/guru/edit/{id}', [GuruController::class, 'edit']);
         Route::post('/guru/update/{id}', [GuruController::class, 'update']);
-        Route::get('/guru/hapus/{id}', [GuruController::class, 'hapus']);
-        
-        
+        Route::post('/guru/hapus/{id}', [GuruController::class, 'hapus']);
+
+
         // crud mapel
         Route::get('/mapel', [MapelController::class, 'index']);
-        Route::get('/mapel/create', [MapelController::class, 'tambah']);
         Route::post('/mapel/simpan', [MapelController::class, 'simpan']);
-        Route::get('/mapel/edit/{id}', [MapelController::class, 'edit']);
         Route::post('/mapel/update/{id}', [MapelController::class, 'update']);
         Route::get('/mapel/hapus/{id}', [MapelController::class, 'hapus']);
-        
+
         // crud kelas
         Route::get('/kelas', [KelasControlller::class, 'index']);
-        Route::get('/kelas/create', [KelasControlller::class, 'tambah']);
-      Route::post('/kelas/simpan', [KelasControlller::class, 'simpan']);
-      Route::get('/kelas/edit/{id}', [KelasControlller::class, 'edit']);
-      Route::post('/kelas/update/{id}', [KelasControlller::class, 'update']);
-      Route::get('/kelas/hapus/{id}', [KelasControlller::class, 'hapus']);
-      
-      // crud jadwal
-      Route::get('/jadwal', [JadwalController::class, 'index']);
-      Route::get('/jadwal/create', [JadwalController::class, 'tambah']);
-      Route::post('/jadwal/simpan', [JadwalController::class, 'simpan']);
-      Route::get('/jadwal/edit/{id}', [JadwalController::class, 'edit']);
-      Route::post('/jadwal/update/{id}', [JadwalController::class, 'update']);
-      
-      // crud user
-      Route::get('/user', [UserController::class, 'index']);
-      Route::get('/user/create', [UserController::class, 'tambah']);
-      Route::post('/user/simpan', [UserController::class, 'simpan']);
-      Route::get('/user/edit/{id}', [UserController::class, 'edit']);
-      Route::post('/user/update/{id}', [UserController::class, 'update']);
-      Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+        Route::post('/kelas/simpan', [KelasControlller::class, 'simpan']);
+        Route::post('/kelas/update/{id}', [KelasControlller::class, 'update']);
+        Route::post('/kelas/hapus/{id}', [KelasControlller::class, 'hapus']);
+        
+        // crud jadwal
+        Route::get('/jadwal', [JadwalController::class, 'index']);
+        Route::post('/jadwal/simpan', [JadwalController::class, 'simpan']);
+        Route::post('/jadwal/update/{id}', [JadwalController::class, 'update']);
+        Route::post('/jadwal/hapus/{id}', [JadwalController::class, 'hapus']);
+
+        // crud user
+        Route::get('/user', [UserController::class, 'index']);
+        Route::post('/user/simpan', [UserController::class, 'simpan']);
+        Route::post('/user/update/{id}', [UserController::class, 'update']);
+        Route::post('/user/hapus/{id}', [UserController::class, 'hapus']);
+        Route::get('/api/show-user/{role}', [UserController::class, 'show_user']);
     });
     Route::middleware([GuruMiddleware::class])->group(function () {
         Route::get('/generate/presensi', [PresensiController::class, 'index']);
-        Route::get('/simpan-code-presensi', [PresensiController::class, 'simpan']);
-        
+        Route::post('/simpan-code-presensi', [PresensiController::class, 'simpan']);
+        Route::get('/absen-siswa', [PresensiController::class, 'showAbsen']);
+        Route::post('/getPresensi', [PresensiController::class, 'filterAbsensi']);
+        Route::get('/cetak-presensi/{minggu_ke}/{jadwal_id}', [PresensiController::class, 'cetakPresensi']);
+
     });
     Route::middleware([SiswaMiddleware::class])->group(function () {
         Route::get('/siswa/presensi', [PresensiController::class, 'presensiSiswa']);
-        Route::get('/cekPresensi', [PresensiController::class, 'cekPresensi']);
-    
+        Route::post('/cekPresensi', [PresensiController::class, 'cekPresensi']);
     });
-        // presensi
+    
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    });
 });
+Route::get('/api/fiter-absen/{jadwal_id}/{minggu_ke}', [PresensiController::class, 'filter_absen']);

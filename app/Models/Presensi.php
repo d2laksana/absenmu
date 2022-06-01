@@ -9,4 +9,11 @@ class Presensi extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    function siswa(){
+        return $this->belongsTo(Siswa::class, 'siswa_id');
+    }
+    function jadwal() {
+        return $this->belongsTo(JadwalMapel::class, 'jadwal_id');
+    }
 }

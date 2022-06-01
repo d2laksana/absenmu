@@ -12,8 +12,9 @@ class GuruController extends Controller
 {
     public function index()
     {
+        $kelas = Kelas::all();
         $guru = Guru::all();
-        return view('admin.guru.guru', compact('guru'));
+        return view('admin.guru.guru', compact('guru', 'kelas'));
     }
 
     public function tambah()

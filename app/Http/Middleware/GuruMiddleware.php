@@ -19,6 +19,6 @@ class GuruMiddleware
         if ( auth()->user()->role == 'guru'){
             return $next($request);
         }
-        return redirect()->back()->with('error', 'Menu ini tidak bisa anda akses!');
+        return back()->with('error', 'Menu ini tidak bisa anda akses!');
     }
 }
